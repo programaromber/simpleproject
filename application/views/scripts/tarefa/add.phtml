@@ -1,0 +1,76 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'index')); ?>">Tarefa</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'edit', 'id' => $this->tarefa->id)); ?>">Editar</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Adicionar Usuario</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                usuario: 'required'
+            },
+            messages: {
+                usuario: ' <span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    -->
+</script>
+
+<div id="form_container">
+    <img id="top"  src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+    <form id="formulario" class="appnitro"  method="post">
+        <div class="form_description">
+            <h2><span class="label label-info">Adicionar Usuario</span></h2>
+        </div>						
+        <ul >
+            <li id="li_1" >
+                <label class="description" for="tarefa">Tarefa </label>
+                <div>
+                     <input id="tarefa" name="tarefa"  type="hidden" value="<?php echo $this->escape($this->tarefa->id); ?>" />
+                    <h2><?php echo  $this->escape($this->tarefa->id) . " - " .  $this->escape($this->tarefa->nome); ?></h2>
+                </div>
+            </li>
+            
+            <li id="li_1" >
+                <label class="description" for="nome">Usuario </label>
+                <div>
+                    <select class="element select large" id="usuario" name="usuario"> 
+                        <option value="" >...</option>
+                        <?php
+                        $usuarios = new Model_DbTable_Usuario();
+                        $where = "equipe_id = ".$this->tarefa->equipe_id;
+                        foreach ($usuarios->fetchAll($where,null,null,null) as $row) {
+                            ?><option value="<?php echo $row->id; ?>">
+                                <?php echo  $this->escape($row->id)." - ". $this->escape($row->nome)." - ". $this->escape($row->email); ?>
+                            </option><?php }
+                        ?>
+
+
+                    </select>
+                </div> 
+            </li>
+
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="394016" />
+
+                <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Salvar" />
+                <input class="btn" id="limpar" class="button_text" type="reset" name="submit" value="Limpar" />
+                <a class="btn" href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'edit', 'id' => $this->tarefa->id)); ?>"><b>Cancelar</b></a>
+            </li>
+        </ul>
+        <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+    </form>	
+
+</div>
+

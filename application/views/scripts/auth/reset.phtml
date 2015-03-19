@@ -1,0 +1,54 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Nova Senha</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                email:{
+                    required: true,
+                    email: true 
+                }
+            },
+            messages: {
+                email: '<span class="label label-important">* Email Inválido</span>'
+            }
+        });
+    });
+    -->
+</script>
+
+<div id="form_container">
+    <img id="top"  src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+    <form id="formulario" class="appnitro"  method="post">
+        <div class="form_description">
+            <h2><span class="label label-info">Nova Senha</span></h2>
+        </div>						
+        <ul >
+
+          
+            <li id="li_3" >
+                <label class="description" for="reset_email">Informe o Email </label>
+                <div>
+                    <input id="reset_email" name="reset_email" class="element text medium" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+           
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="394016" />
+
+                <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Enviar" />
+                <input class="btn" id="limpar" class="button_text" type="reset" name="submit" value="Limpar" />
+            </li>
+        </ul>
+        <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+    </form>	
+
+</div>
+

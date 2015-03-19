@@ -1,0 +1,113 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'usuario', 'action' => 'index')); ?>">Usuario</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Editar</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                nome: 'required',
+                sobrenome: 'required',
+                email:{
+                    required: true,
+                    email: true 
+                },
+                grupo: 'required',
+                equipe: 'required'
+            },
+            messages: {
+                nome: ' <span class="label label-important">* Campo Obrigatório</span>',
+                sobrenome: ' <span class="label label-important">* Campo Obrigatório</span>',
+                email: '<span class="label label-important">* Email Inválido</span>',
+                grupo: '<span class="label label-important">* Email Inválido</span>',
+                equipe: ' <span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    -->
+</script>
+<?php if (isset($this->message)) echo $this->message; ?>
+
+<div id="form_container">
+
+    <?php if (isset($this->usuario)) : ?>
+        <form id="formulario" class="appnitro"  method="post">
+            <img id="top" src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+            <div class="form_description">
+                <h2><span class="label label-info">Editar Usuario</span></h2>
+            </div>						
+            <ul >
+
+                <li id="li_1" >
+                    <label class="description" for="nome">Nome </label>
+                    <div>
+                         <input id="id" name="id"  type="hidden" value="<?php echo $this->escape($this->usuario->id); ?>" />
+                        <input id="nome" name="nome" class="element text medium" type="text" maxlength="45" 
+                               value="<?php echo $this->escape($this->usuario->nome); ?>"/> 
+                    </div> 
+                </li>
+                <li id="li_3" >
+                    <label class="description" for="email">Email </label>
+                    <div>
+                        <input id="email" name="email" class="element text medium" type="text" maxlength="45" 
+                               value="<?php echo $this->escape($this->usuario->email); ?>"/> 
+                    </div> 
+                </li>
+                <li id="li_4" >
+                    <label class="description" for="senha">Senha </label>
+                    <div>
+                        <input id="senha" name="senha" class="element text medium" type="text" maxlength="45" 
+                               value=""/> 
+                    </div> 
+                </li>
+                <li id="li_5" >
+                    <label class="description" for="grupo">Grupo </label>
+                    <div>
+                        <select class="element select medium" id="grupo" name="grupo">
+                            <option value="">...</option>
+                            <option value="1" <? echo $this->usuario->grupo == "1" ? "selected='selected'" : "";?> >USUARIO</option>
+                            <option value="2" <? echo $this->usuario->grupo == "2" ? "selected='selected'" : "";?>>COORDENADOR</option>
+                            <option value="3" <? echo $this->usuario->grupo == "3" ? "selected='selected'" : "";?>>ADMINISTRADOR</option>
+                        </select>
+                    </div> 
+                </li>
+                <li id="li_5" >
+                    <label class="description" for="equipe">Equipe </label>
+                    <div>
+                        <select class="element select medium" id="equipe" name="equipe"> 
+                            <option value="">...</option>
+                            <?php
+                                $equipes = new Model_DbTable_Equipe();
+                                $equipe = $this->usuario->findParentRow('Model_DbTable_Equipe', 'Equipe');
+                                foreach ($equipes->fetchAll() as $row) {
+                                    
+                            ?><option value="<?php echo $row->id; ?>" <?php echo ($row->id == $equipe->id) ? "selected='selected'": "";?>
+                                    ><?php echo $row->nome; ?></option>
+                            <?php  }?>
+
+                        </select>
+                    </div> 
+                </li>
+                <li class="buttons">
+                    <input type="hidden" name="form_id" value="394016" />
+
+                    <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Atualizar" />
+                    <input class="btn" id="limpar" class="button_text" type="reset" name="limpar" value="Limpar" />
+                    <a class="btn" href="<?php echo $this->url(array('controller' => 'usuario', 'action' => 'index')); ?>"><b>Cancelar</b></a>
+
+                </li>
+            </ul>
+            <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+        </form>
+    <?php endif; ?>
+</div>
+
+

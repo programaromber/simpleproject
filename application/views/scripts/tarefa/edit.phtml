@@ -1,0 +1,241 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'index'), null, true); ?>">Tarefa</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Editar</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#dataInicio").mask("99/99/9999");
+        $("#dataFim").mask("99/99/9999");
+        $("#percentual").mask("999");
+        $('#myModal').hide();
+        $("#formulario").validate({
+            rules: {
+                nome: 'required',
+                descricao: 'required',
+                modulo: 'required',
+                equipe: 'required',
+                situacao: 'required',
+                percentual: {
+                    required: true,
+                    min: 0,
+                    max: 100
+                },
+                dataInicio: {required: true},
+                dataFim: {required: true}
+            },
+            messages: {
+                nome: ' <span class="label label-important">* Campo Obrigatório</span>',
+                descricao: '<span class="label label-important">* Campo Obrigatório</span>',
+                modulo: '<span class="label label-important">* Campo Obrigatório</span>',
+                equipe: '<span class="label label-important">* Campo Obrigatório</span>',
+                situacao: '<span class="label label-important">* Campo Obrigatório</span>',
+                percentual: '<span class="label label-important">* O percentual não pode ser menor que 0 e maior que 100</span>',
+                dataInicio: '<span class="label label-important">* Campo Obrigatório</span>',
+                dataFim: '<span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    $(function() {
+        $( "#dataInicio" ).datepicker();
+        $( "#dataFim" ).datepicker();
+        $( "#slider-range-min" ).slider({
+            range: "min",
+            value: <?php echo $this->escape($this->tarefa->percentual); ?>,
+            min: 0,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#percentual" ).val( ui.value );
+            }
+        });
+        $( "#percentual" ).val( $( "#slider-range-min" ).slider( "value" ) );
+    });
+    -->
+</script>
+<?php if (isset($this->message)) echo $this->message; ?>
+
+<div id="form_container">
+
+    <?php if (isset($this->tarefa)) : ?>
+        <form id="formulario" class="appnitro"  method="post">
+            <img id="top" src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+            <div class="form_description">
+                <h2><span class="label label-info">Editar Tarefa</span></h2>
+            </div>						
+            <ul >
+                <li id="li_1" >
+                    <label class="description" for="nome">Nome </label>
+                    <div>
+                        <input id="id" name="id"  type="hidden" value="<?php echo $this->escape($this->tarefa->id); ?>" />
+                        <input id="nome" name="nome" class="element text large" type="text" maxlength="45" 
+                               value="<?php echo $this->escape($this->tarefa->nome); ?>"/> 
+                    </div> 
+                </li>
+                <li id="li_2" >
+                    <label class="description" for="descricao">Descri&ccedil;&atilde;o </label>
+                    <div>
+                        <textarea id="descricao" name="descricao" class="element textarea small"><?php echo $this->escape($this->tarefa->descricao); ?></textarea> 
+                    </div> 
+                </li>
+                <li id="li_3" >
+                    <label class="description" for="modulo">Modulo </label>
+                    <div>
+                        <select class="element select medium" id="modulo" name="modulo"> 
+                            <option value="" >...</option>
+                            <?php
+                            $moduloFiltro = new Model_DbTable_Modulo();
+                            foreach ($moduloFiltro->fetchAll() as $row) {
+                                ?><option value="<?php echo $row->id; ?>"
+                                <?php echo ($this->tarefa->modulo_id == $row->id) ? "selected='selected'" : ""; ?>
+                                        ><?php echo $row->nome; ?></option><?php }
+                            ?>
+
+
+                        </select>
+                    </div> 
+                </li>
+                <li id="li_4" >
+                    <label class="description" for="equipe">Equipe </label>
+                    <div>
+                        <select class="element select medium" id="equipe" name="equipe"> 
+                            <option value="" >...</option>
+                            <?php
+                            $equipeFiltro = new Model_DbTable_Equipe();
+                            foreach ($equipeFiltro->fetchAll() as $row) {
+                                ?><option value="<?php echo $row->id; ?>"
+                                <?php echo ($this->tarefa->equipe_id == $row->id) ? "selected='selected'" : ""; ?>
+                                        ><?php echo $row->nome; ?></option><?php
+                    }
+                            ?>
+
+                        </select>
+                    </div>
+                </li>
+                <li id="li_5" >
+                    <label class="description" for="situacao">Situa&ccedil;&atilde;o </label>
+                    <div>
+                        <select class="element select medium" id="situacao" name="situacao"> 
+                            <option value="" >...</option>
+                            <option value="1" <?php echo ($this->tarefa->situacao == "1") ? "selected='selected'" : ""; ?>>CADASTRADA</option>
+                            <option value="2" <?php echo ($this->tarefa->situacao == "2") ? "selected='selected'" : ""; ?>>EM EXECUCAO</option>
+                            <option value="3" <?php echo ($this->tarefa->situacao == "3") ? "selected='selected'" : ""; ?>>PENDENTE</option>
+                            <option value="4" <?php echo ($this->tarefa->situacao == "4") ? "selected='selected'" : ""; ?>>CONCLUIDA</option>
+                        </select>
+                    </div> 
+                </li>
+                <li id="li_6" >
+                    <label class="description" for="nome">Percentual </label>
+
+                    <div>
+                        <input id="percentual" name="percentual" class="element text small"  
+                               style="border:0; font-weight:bold;" 
+                               type="text" maxlength="3" value="<?php echo $this->escape($this->tarefa->percentual); ?>"/>
+                        <br />
+
+                    </div> 
+
+                </li>
+                <div>
+                    <div id="slider-range-min" style="width: 300px; "></div>
+                </div>
+                <li id="li_7" >
+                    <label class="description" for="nome">Data Inicial </label>
+                    <div>
+                        <?php $dataInicio = new Zend_Date($this->tarefa->data_inicio, 'yyyy-MM-dd') ?>
+                        <input id="dataInicio" name="dataInicio" class="element text small" type="text" maxlength="45" 
+                               value="<?php echo $this->escape($dataInicio->get('dd/MM/yyyy')); ?>"/> 
+                    </div> 
+                </li>
+                <li id="li_8" >
+                    <label class="description" for="nome">Data Final </label>
+                    <div>
+                        <?php $dataFim = new Zend_Date($this->tarefa->data_fim, 'yyyy-MM-dd') ?>
+                        <input id="dataFim" name="dataFim" class="element text small" type="text" maxlength="45" 
+                               value="<?php echo $this->escape($dataFim->get('dd/MM/yyyy')); ?>"/> 
+                    </div> 
+                </li>
+                
+                <div id="miniCrud">
+                    <div class="form_description">
+                        <h2><span class="label label-info">Usuarios Alocados</span></h2>
+                        <a class="btn" href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'add')); ?>" title="Adicionar Usuario">Adicionar Usuario</a>
+                    </div>
+                    
+                    <?php
+                        $atividade = new Model_DbTable_Atividade();
+                        $where_atividade = "tarefa_id = ".$this->tarefa->id;
+                        $atividades = $atividade->fetchAll($where_atividade,null,null,null);
+                    ?>
+                    <table class="table table-striped table-bordered table-condensed" cellspacing="1" cellpadding="1" border="1" width="500">
+                        <?php if (count($atividades) > 0) { ?>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Nome</th>
+                                    <th>Email</th>
+                                    <th>A&ccedil;&otilde;es</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <?php foreach ($atividades as $row) { 
+                                    $usuario = $row->findParentRow('Model_DbTable_Usuario', 'Usuario')
+                                    ?>
+                                
+                                    <tr>
+                                        <td><?php echo $usuario->id; ?></td>
+                                        <td><?php echo $this->escape($usuario->nome); ?></td>
+                                        <td><?php echo $this->escape($usuario->email); ?></td>
+                                        <td>
+                                            <div class="btn-group" >
+                                                   <a class="btn btn-warning" data-toggle="modal" href="<?php echo $row->id; ?>#myModal" title="Remover">Remover</a>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                <?php } ?>
+                            </tbody>
+
+                        <?php } else { ?>
+                            <thead>
+                                <tr>
+                                    <th><p>Nenhum registro encontrado.</p></th>
+                            </tr>
+                            </thead>
+                        <?php } ?>
+                    </table>
+                </div>
+
+                <li class="buttons">
+                    <input type="hidden" name="form_id" value="394016" />
+
+                    <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Atualizar" />
+                    <input class="btn" id="limpar" class="button_text" type="reset" name="limpar" value="Limpar" />
+                    <a class="btn" href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'index'), null, true); ?>"><b>Cancelar</b></a>
+
+                </li>
+            </ul>
+            <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+        </form>
+    <?php endif; ?>
+</div>
+<div class="modal" id="myModal" class="modal hide fade in" style="display: block;">
+    <div class="modal-header">
+        <a class="close" data-dismiss="modal">×</a>
+        <h3>Remover Registro</h3>
+    </div>
+    <div class="modal-body">
+        <p>Deseja remover o registro?</p>
+    </div>
+    <div class="modal-footer">
+        <a href="#" class="btn" data-dismiss="modal" >Cancelar</a>
+        <a href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'remove', 'id' => $row->id)); ?>"
+           class="btn btn-primary">Confirmar</a>
+    </div>
+</div>
+

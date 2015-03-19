@@ -1,0 +1,80 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'modulo', 'action' => 'index')); ?>">Modulo</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Editar</li>
+    </ul>
+</div>
+<script>
+    <!--
+        $(document).ready(function(){
+            $("#dataEntrega").mask("99/99/9999");
+            $("#formulario").validate({
+                rules: {
+                    nome: 'required',
+                    dataEntrega: 'required',
+                    descricao: 'required'
+                },
+                messages: {
+                    nome: '<span class="label label-important">* Campo Obrigatório</span>',
+                    dataEntrega: ' <span class="label label-important">* Campo Obrigatório</span>',
+                    descricao: ' <span class="label label-important">* Campo Obrigatório</span>'
+                }
+            });
+        });
+        $(function() {
+            $( "#dataEntrega" ).datepicker();
+        });
+    -->
+</script>
+<?php if (isset($this->message)) echo $this->message; ?>
+
+<div id="form_container">
+
+    <?php if (isset($this->equipe)) : ?>
+        <form id="formulario" class="appnitro"  method="post">
+            <img id="top" src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+            <div class="form_description">
+                <h2><span class="label label-info">Editar Modulo</span></h2>
+            </div>						
+            <ul >
+
+                <li id="li_1" >
+                    <label class="description" for="nome">Nome </label>
+                    <div>
+                        <input id="id" name="id"  type="hidden" value="<?php echo $this->escape($this->equipe->id); ?>" />
+                        <input id="nome" name="nome" class="element text large" type="text" maxlength="45" value="<?php echo $this->escape($this->equipe->nome); ?>"/> 
+                    </div> 
+                </li>		
+                <li id="li_2" >
+                    <label class="description" for="descricao">Descrição </label>
+                    <div>
+                        <textarea id="descricao" name="descricao" class="element textarea small"><?php echo $this->escape($this->equipe->descricao); ?></textarea> 
+                    </div> 
+                </li>
+                <li id="li_3" >
+                    <label class="description" for="dataEntrega">Data da Entrega </label>
+                    <div>
+                        <?php $dataEntrega = new Zend_Date($this->equipe->data_entrega,'yyyy-MM-dd')?>
+                        <input id="dataEntrega" name="dataEntrega" class="element text small" type="text" maxlength="45" value="<?php echo $this->escape($dataEntrega->get('dd/MM/yyyy')); ?>"/> 
+                    </div>
+                </li>
+                <li class="buttons">
+                    <input type="hidden" name="form_id" value="394016" />
+
+                    <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Atualizar" />
+                    <input class="btn" id="limpar" class="button_text" type="reset" name="limpar" value="Limpar" />
+                    <a class="btn" href="<?php echo $this->url(array('controller' => 'modulo', 'action' => 'index')); ?>"><b>Cancelar</b></a>
+
+                </li>
+            </ul>
+            <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+        </form>
+    <?php endif; ?>
+</div>
+
+

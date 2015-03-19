@@ -1,0 +1,163 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'index')); ?>">Tarefa</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Novo</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#dataInicio").mask("99/99/9999");
+        $("#dataFim").mask("99/99/9999");
+        $("#percentual").mask("999");
+        $("#formulario").validate({
+            rules: {
+                nome: 'required',
+                descricao: 'required',
+                modulo: 'required',
+                equipe: 'required',
+                situacao: 'required',
+                percentual: {
+                    required: true,
+                    min: 0,
+                    max: 100
+                },
+                dataInicio: {required: true},
+                dataFim: {required: true}
+            },
+            messages: {
+                nome: ' <span class="label label-important">* Campo Obrigatório</span>',
+                descricao: '<span class="label label-important">* Campo Obrigatório</span>',
+                modulo: '<span class="label label-important">* Campo Obrigatório</span>',
+                equipe: '<span class="label label-important">* Campo Obrigatório</span>',
+                situacao: '<span class="label label-important">* Campo Obrigatório</span>',
+                percentual: '<span class="label label-important">* O percentual não pode ser menor que 0 e maior que 100</span>',
+                dataInicio: '<span class="label label-important">* Campo Obrigatório</span>',
+                dataFim: '<span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    $(function() {
+        $( "#dataInicio" ).datepicker();
+        $( "#dataFim" ).datepicker();
+        $( "#slider-range-min" ).slider({
+            range: "min",
+            value: 0,
+            min: 0,
+            max: 100,
+            slide: function( event, ui ) {
+                $( "#percentual" ).val( ui.value );
+            }
+        });
+        $( "#percentual" ).val( $( "#slider-range-min" ).slider( "value" ) );
+    });
+    -->
+</script>
+
+<div id="form_container">
+    <img id="top"  src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+    <form id="formulario" class="appnitro"  method="post">
+        <div class="form_description">
+            <h2><span class="label label-info">Cadastrar Tarefa</span></h2>
+        </div>						
+        <ul >
+
+            <li id="li_1" >
+                <label class="description" for="nome">Nome </label>
+                <div>
+                    <input id="nome" name="nome" class="element text large" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li id="li_2" >
+                <label class="description" for="descricao">Descri&ccedil;&atilde;o </label>
+                <div>
+                    <textarea id="descricao" name="descricao" class="element textarea small"></textarea> 
+                </div> 
+            </li>
+            <li id="li_3" >
+                <label class="description" for="modulo">Modulo </label>
+                <div>
+                    <select class="element select medium" id="modulo" name="modulo"> 
+                        <option value="" >...</option>
+                        <?php
+                        $moduloFiltro = new Model_DbTable_Modulo();
+                        foreach ($moduloFiltro->fetchAll() as $row) {
+                            ?><option value="<?php echo $row->id; ?>"><?php echo $row->nome; ?></option><?php }
+                        ?>
+
+
+                    </select>
+                </div> 
+            </li>
+            <li id="li_4" >
+                <label class="description" for="equipe">Equipe </label>
+                <div>
+                    <select class="element select medium" id="equipe" name="equipe"> 
+                        <option value="" >...</option>
+                        <?php
+                        $equipeFiltro = new Model_DbTable_Equipe();
+                        foreach ($equipeFiltro->fetchAll() as $row) {
+                            ?><option value="<?php echo $row->id; ?>"><?php echo $row->nome; ?></option><?php
+                    }
+                        ?>
+
+                    </select>
+                </div>
+            </li>
+            <li id="li_5" >
+                <label class="description" for="situacao">Situa&ccedil;&atilde;o </label>
+                <div>
+                    <select class="element select medium" id="situacao" name="situacao"> 
+                        <option value="" >...</option>
+                        <option value="1" selected="selected">CADASTRADA</option>
+                        <option value="2" >EM EXECUCAO</option>
+                        <option value="3" >PENDENTE</option>
+                        <option value="4" >CONCLUIDA</option>
+                    </select>
+                </div> 
+            </li>
+            <li id="li_6" >
+                <label class="description" for="nome">Percentual </label>
+                
+                <div>
+                   <input id="percentual" name="percentual" class="element text small"  
+                           style="border:0; font-weight:bold;" 
+                           type="text" maxlength="3" value=""/>
+                    <br />
+
+                </div> 
+
+            </li>
+            <div>
+                <div id="slider-range-min" style="width: 300px; "></div>
+            </div>
+            <li id="li_7" >
+                <label class="description" for="nome">Data Inicial </label>
+                <div>
+                    <input id="dataInicio" name="dataInicio" class="element text small" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li id="li_8" >
+                <label class="description" for="nome">Data Final </label>
+                <div>
+                    <input id="dataFim" name="dataFim" class="element text small" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="394016" />
+
+                <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Salvar" />
+                <input class="btn" id="limpar" class="button_text" type="reset" name="submit" value="Limpar" />
+                <a class="btn" href="<?php echo $this->url(array('controller' => 'tarefa', 'action' => 'index')); ?>"><b>Cancelar</b></a>
+            </li>
+        </ul>
+        <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+    </form>	
+
+</div>
+

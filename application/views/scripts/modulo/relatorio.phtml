@@ -1,0 +1,169 @@
+<?php
+//echo $this->dompdf->render();
+////$dompdf->stream("exemplo-01.pdf");
+////echo $html;
+?>
+
+<ul class="breadcrumb">
+    <li>
+        <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+    </li>
+    <li>
+        <a href="<?php echo $this->url(array('controller' => 'modulo', 'action' => 'index')); ?>">Modulo</a> <span class="divider">/</span>
+    </li>
+    <li class="active">Relatório </li>
+</ul>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#dataEntrega").mask("99/99/9999");
+        $("#dataInicio").mask("99/99/9999");
+        $("#dataFim").mask("99/99/9999");
+        $('#myModal').hide();
+    });
+    $(function() {
+        $( "#dataEntrega" ).datepicker();
+    });
+    -->
+</script>
+<div class="btn-group">
+    <form id="formulario" class="appnitro"  method="post">
+        <div class="form_description">
+            <h2>
+                <span class="label label-info">Relatório de Atividades</span>
+                <p class="pull-right">
+
+                    <a class="btn" target="_blank"
+                       href="<?php echo $this->url(array('controller' => 'modulo', 'action' => 'pdf', 'id' => $this->modulo_id)); ?>" 
+                       title="Gerar PDF">
+                        <img class="ui-icon ui-icon-document"/>
+                    </a>
+                    <a class="btn" onclick="window.print();"
+                       title="Imprimir">
+                        <img class="ui-icon ui-icon-print"/>
+                    </a>
+                </p>
+            </h2>
+
+
+        </div>
+
+    </form>
+
+</div>
+
+<div>
+
+
+    <?php if (count($this->modulos) > 0) { ?>
+
+        <?php foreach ($this->modulos as $row) { ?>
+            <table class="table table-striped table-bordered table-condensed" style='font-size: 8px' cellspacing="1" cellpadding="1" border="1" width="500">
+                <thead>
+                    <tr>
+                        <th>Modulo</th>
+                        <th>Data da entrega</th>
+                        <th>Progresso</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <?php $dataEntrega = new Zend_Date($row->data_entrega); ?>
+                        <td><?php echo $row->id . " - " . $this->escape($row->nome); ?></td>
+                        <td><?php echo $this->escape($dataEntrega->get('dd/MM/yyyy')); ?></td>
+                        <td>
+                            <?php
+                            $tarefas = $row->findDependentRowset('Model_DbTable_Tarefa');
+                            $percentual = 0;
+                            $total = count($tarefas) * 100;
+                            foreach ($tarefas as $tarefa) {
+                                $percentual = $percentual + $tarefa->percentual;
+                            }$percentual = ($percentual / $total ) * 100;
+                            ?>
+                            <div class="progress progress-striped
+                                 active">
+                                <div class="bar"
+                                     style="width: <?php echo number_format($percentual, 0); ?>%;"><?php echo number_format($percentual, 0) . "%"; ?></div>
+                            </div>
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td colspan="3">
+                            <?php
+                            $tarefas = $row->findDependentRowset('Model_DbTable_Tarefa');
+                            ?>
+                            <table class="table table-striped table-bordered table-condensed" cellspacing="1" cellpadding="1" border="1" width="500">
+                                <?php if (count($tarefas) > 0) { ?>
+                                    <thead>
+                                        <tr>
+                                            <th>Tarefa</th>
+                                            <th>Equipe</th>
+                                            <th>Situa&ccedil;&atilde;o</th>
+                                            <th>Data Inicio</th>
+                                            <th>Data Fim</th>
+                                            <th>Percentual</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <?php foreach ($tarefas as $tarefa) { ?>
+                                            <tr>
+                                                <?php
+                                                $dataInicio = new Zend_Date($tarefa->data_inicio);
+                                                $dataFim = new Zend_Date($tarefa->data_fim);
+                                                ?>
+                                                <td><?php echo $this->escape($tarefa->id . " - " . $tarefa->nome); ?></td>
+                                                <?php $equipe = $tarefa->findParentRow('Model_DbTable_Equipe', 'Equipe'); ?>
+                                                <td><?php echo $this->escape($equipe->nome); ?></td>
+                                                <?php
+                                                $situacao = "";
+                                                switch ($tarefa->situacao) {
+                                                    case "1": $situacao = "CADASTRADA";
+                                                        break;
+                                                    case "2": $situacao = "EM EXECUCAO";
+                                                        break;
+                                                    case "3": $situacao = "PENDENTE";
+                                                        break;
+                                                    case "4": $situacao = "CONCLUIDA";
+                                                        break;
+                                                }
+                                                ?>
+                                                <td><?php echo $situacao; ?></td>
+                                                <td><?php echo $this->escape($dataInicio->get('dd/MM/yyyy')); ?></td>
+                                                <td><?php echo $this->escape($dataFim->get('dd/MM/yyyy')); ?></td>
+                                                <td>
+                                                    <div class="progress progress-striped
+                                                         active">
+                                                        <div class="bar"
+                                                             style="width: <?php echo $this->escape($tarefa->percentual); ?>%;"><?php echo $this->escape($tarefa->percentual) . "%"; ?></div>
+                                                    </div>
+
+                                                </td>
+                                            </tr>
+                                        <?php } ?>
+                                    </tbody>
+
+                                <?php } else { ?>
+                                    <thead>
+                                        <tr>
+                                            <th><p>Nenhum registro encontrado.</p></th>
+                        </tr>
+                        </thead>
+                    <?php } ?>
+            </table>
+        </td>
+        </tr>
+    <?php } ?>
+    </tbody>
+    </table>
+<?php } else { ?>
+    <table class="table table-striped table-bordered table-condensed" style='font-size: 8px' cellspacing="1" cellpadding="1" border="1" width="500">
+        <thead>
+            <tr>
+                <th><p>Nenhum registro encontrado.</p></th>
+        </tr>
+        </thead>
+    </table>
+<?php } ?>
+
+</div>

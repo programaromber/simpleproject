@@ -1,0 +1,85 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Registro</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                nome: 'required',
+                email:{
+                    required: true,
+                    email: true 
+                },
+                senha: 'required',
+                equipe: 'required'
+            },
+            messages: {
+                nome: ' <span class="label label-important">* Campo Obrigatório</span>',
+                email: '<span class="label label-important">* Email Inválido</span>',
+                senha: ' <span class="label label-important">* Campo Obrigatório</span>',
+                equipe: ' <span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    -->
+</script>
+
+<div id="form_container">
+    <img id="top"  src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+    <form id="formulario" class="appnitro"  method="post">
+        <div class="form_description">
+            <h2><span class="label label-info">Novo Usuario</span></h2>
+        </div>						
+        <ul >
+
+            <li id="li_1" >
+                <label class="description" for="nome">Nome </label>
+                <div>
+                    <input id="nome" name="nome" class="element text medium" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li id="li_3" >
+                <label class="description" for="email">Email </label>
+                <div>
+                    <input id="email" name="email" class="element text medium" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li id="li_4" >
+                <label class="description" for="email">Senha </label>
+                <div>
+                    <input id="senha" name="senha" class="element text medium" type="password" maxlength="45" value=""/> 
+                </div> 
+            </li>
+            <li id="li_5" >
+                <label class="description" for="equipe">Equipe </label>
+                <div>
+                    <select class="element select medium" id="equipe" name="equipe"> 
+                        <option value="" >...</option>
+                        <?php
+                        $equipe = new Model_DbTable_Equipe();
+                        foreach ($equipe->fetchAll() as $row) {
+                            ?><option value="<?php echo $row->id; ?>"><?php echo $row->nome; ?></option><?php
+                        }
+                        ?>
+
+                    </select>
+                </div> 
+            </li>
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="394016" />
+
+                <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Salvar" />
+                <input class="btn" id="limpar" class="button_text" type="reset" name="submit" value="Limpar" />
+            </li>
+        </ul>
+        <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+    </form>	
+
+</div>
+

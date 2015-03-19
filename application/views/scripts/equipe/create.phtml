@@ -1,0 +1,55 @@
+<div>
+    <ul class="breadcrumb">
+        <li>
+            <a href="<?php echo $this->baseUrl(); ?>">Home</a> <span class="divider">/</span>
+        </li>
+        <li>
+            <a href="<?php echo $this->url(array('controller' => 'equipe', 'action' => 'index')); ?>">Equipe</a> <span class="divider">/</span>
+        </li>
+        <li class="active">Novo</li>
+    </ul>
+</div>
+<script>
+    <!--
+    $(document).ready(function(){
+        $("#formulario").validate({
+            rules: {
+                nome: 'required'
+            },
+            messages: {
+                nome: '<span class="label label-important">* Campo Obrigatório</span>'
+            }
+        });
+    });
+    -->
+</script>
+
+<div id="form_container">
+
+    <form id="formulario" class="appnitro"  method="post">
+        <img id="top" src="<?php echo $this->baseUrl(); ?>/img/top.png" alt="">
+        <div class="form_description">
+            <h2><span class="label label-info">Cadastrar Equipe</span></h2>
+        </div>						
+        <ul >
+
+            <li id="li_1" >
+                <label class="description" for="nome">Nome </label>
+                <div>
+                    <input id="nome" name="nome" class="element text medium" type="text" maxlength="45" value=""/> 
+                </div> 
+            </li>		
+
+            <li class="buttons">
+                <input type="hidden" name="form_id" value="394016" />
+
+                <input class="btn" id="saveForm" class="button_text" type="submit" name="submit" value="Salvar" />
+                <input class="btn" id="limpar" class="button_text" type="reset" name="submit" value="Limpar" />
+                <a class="btn" href="<?php echo $this->url(array('controller' => 'equipe', 'action' => 'index')); ?>"><b>Cancelar</b></a>
+            </li>
+        </ul>
+        <img id="bottom" src="<?php echo $this->baseUrl(); ?>/img/bottom.png" alt="">
+    </form>	
+
+</div>
+
